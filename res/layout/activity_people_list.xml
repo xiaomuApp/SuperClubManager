@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/titleblue" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="人员列表"
+            android:textColor="@color/white"
+            android:textSize="@dimen/front_title" />
+
+        <ImageButton
+            android:id="@+id/btnDonePeopleList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_btn_done" />
+        <ImageButton
+            android:id="@+id/btnBackPeopleArrange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_btn_back" />
+
+    </RelativeLayout>
+    
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/lvPeopleList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/bggreygreen">
+        
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="删除人员"
+            android:onClick="testDeletePeople"/>
+        <Button 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="添加人员"
+            android:onClick="testAddPeople"/>
+        
+    </LinearLayout>
+    
+
+</LinearLayout>

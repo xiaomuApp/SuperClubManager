@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/activity_margin"
+    android:paddingLeft="@dimen/list_base_margin"
+    android:paddingRight="@dimen/list_base_margin"
+    android:paddingTop="@dimen/activity_margin" >
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/aliceblue" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin" >
+
+        <TextView
+            android:id="@+id/tvUserNameDepartment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:text="姓名 （部门）"
+            android:textColor="@color/contextgrey2"
+            android:textSize="@dimen/front_2" />
+
+        <TextView
+            android:id="@+id/tvUserPosition"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:text="职位："
+            android:textColor="@color/contextgreen"
+            android:textSize="@dimen/front_1_5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ivUserCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cb_normal" />
+    </LinearLayout>
+
+</LinearLayout>

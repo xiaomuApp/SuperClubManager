@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/list_base_margin" >
+    <TextView 
+        android:id="@+id/tvUserDepartmentName"
+        android:textColor="@color/contextgrey"
+        android:textSize="@dimen/front_2"
+        android:text="部门 - 姓名"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

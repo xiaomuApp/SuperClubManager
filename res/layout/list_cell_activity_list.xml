@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/list_base_margin"
+    android:paddingRight="@dimen/list_base_margin"
+    android:paddingTop="@dimen/activity_margin"
+    android:paddingBottom="@dimen/activity_margin" >
+
+    <TextView
+        android:id="@+id/tvAtyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="活动名称"
+        android:textColor="@color/listgrey"
+        android:textSize="@dimen/front_2" />
+
+    <TextView
+        android:id="@+id/tvAtyTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="活动主题"
+        android:textColor="@color/listgrey"
+        android:textSize="@dimen/front_1_5" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tvAtyTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="活动时间"
+            android:textColor="@color/listgrey"
+            android:textSize="@dimen/front_1_5" />
+
+        <TextView
+            android:id="@+id/tvAtyRelease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="未发布"
+            android:textColor="@color/listgrey"
+            android:textSize="@dimen/front_1_5" />
+
+    </RelativeLayout>
+
+</LinearLayout>
