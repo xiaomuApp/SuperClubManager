@@ -23,6 +23,7 @@ public class Db extends SQLiteOpenHelper {
 		
 		db.execSQL("CREATE TABLE activities("+
 				"_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
+				"atyId TEXT DEFAULT NONE,"+
 				"club TEXT DEFAULT NONE,"+
 				"atyName TEXT DEFAULT NONE,"+
 				"atyTime TEXT DEFAULT NONE,"+
@@ -33,9 +34,8 @@ public class Db extends SQLiteOpenHelper {
 		
 		db.execSQL("CREATE TABLE peopleArrange("+
 				"_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
-				"atyName TEXT DEFAULT NONE,"+
-				"time TEXT DEFAULT NONE,"+
-				"name TEXT DEFAULT NONE"+
+				"atyId TEXT DEFAULT NONE,"+
+				"userNum TEXT DEFAULT NONE"+
 				")");
 		
 

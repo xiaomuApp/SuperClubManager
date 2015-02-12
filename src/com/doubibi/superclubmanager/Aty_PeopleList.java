@@ -28,7 +28,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 	private SQLiteDatabase dbRead, dbWrite;
 	private Adp_PeopleList adapter;
 	private ArrayList<String> checkedPeopleNum;
-	public final static int resultCodeDonePeopleList = 0;
+	public final static int resultCodeDonePeopleList = 1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +52,20 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 		adapter = new Adp_PeopleList(this, R.layout.list_cell_people_list, null, new String[]{}, new int[]{});
 		lvPeopleList.setAdapter(adapter);
 		
-		checkedPeopleNum = new ArrayList<String>();
-		
 		refreshListView();
+		checkedPeopleNum = getIntent().getStringArrayListExtra("checkedPeopleNum");
+		if(checkedPeopleNum == null){
+			checkedPeopleNum = new ArrayList<String>();
+			System.out.println("没有获得数据");
+		}else{
+				adapter.initView(checkedPeopleNum);
+		}
 	}
 
 	private void refreshListView() {
 		Cursor c = dbRead.query("users", null, null, null, null, null, "userName");
 		adapter.changeCursor(c);
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -68,7 +74,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 		case R.id.btnDonePeopleList:
 			Intent intent = new Intent();
 			intent.putExtra("donePeopleList", checkedPeopleNum);
-			setResult(0, intent);
+			setResult(resultCodeDonePeopleList, intent);
 			dbWrite.close();
 			dbRead.close();
 			finish();

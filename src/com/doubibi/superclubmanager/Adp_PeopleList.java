@@ -1,10 +1,13 @@
 package com.doubibi.superclubmanager;
 
+import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -18,9 +21,14 @@ public class Adp_PeopleList extends SimpleCursorAdapter {
 	}
 
 	private Context context;
+	private ArrayList<String>userNumList;
 	
 	public Context getContext() {
 		return context;
+	}
+	
+	public void initView(ArrayList<String>userNumList){	//此函数是初始化列表视图，通过传入的学号列表，标记相应的列表为已勾选状态
+		this.userNumList = userNumList;
 	}
 	
 	@SuppressLint("InflateParams") @Override
@@ -31,9 +39,19 @@ public class Adp_PeopleList extends SimpleCursorAdapter {
 		}
 		TextView tvUserNameDepartment = (TextView) convertView.findViewById(R.id.tvUserNameDepartment);
 		TextView tvUserPosition = (TextView) convertView.findViewById(R.id.tvUserPosition);
+		ImageView ivCheckBox = (ImageView) convertView.findViewById(R.id.ivUserCheckBox);
 		tvUserNameDepartment.setText(cursor.getString(cursor.getColumnIndex("userName"))+
 				" ("+cursor.getString(cursor.getColumnIndex("userDepartment"))+")");
 		tvUserPosition.setText("职位："+cursor.getString(cursor.getColumnIndex("userPosition")));
+		if(userNumList!=null){
+			for(String num:userNumList){
+				if(cursor.getString(cursor.getColumnIndex("userNum")).equals(num)){
+					convertView.setTag(true);
+					ivCheckBox.setImageResource(R.drawable.ic_cb_done);
+					break;
+				}
+			}
+		}
 	}
 	
 

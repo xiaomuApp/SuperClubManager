@@ -67,7 +67,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (resultCode) {
-		case 1:
+		case Aty_ActivityEdit.resultCodeDoneAtyEdit:
 			refreshListView();
 			break;
 		default:
@@ -104,7 +104,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 		Cursor c = dbRead.query("activities", null, null, null, null, null, "atyTime");
 		adapter.changeCursor(c);
 		adapter.notifyDataSetChanged();
-
+		
 	}
 
 	@Override
@@ -114,13 +114,14 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 		c.moveToPosition(position-1);
 		Intent i = new Intent(this, Aty_ActivityEdit.class);
 		System.out.println(c.getString(c.getColumnIndex("atyName")));
-		i.putExtra("atyId", c.getInt(c.getColumnIndex("_id")));
+		i.putExtra("atyId", c.getString(c.getColumnIndex("atyId")));
 		startActivity(i);
 		
 	}
 	
 	public void btnClearAtyList(View view){
 		dbRead.delete("activities", null, null);
+		dbRead.delete("peopleArrange", null, null);
 		refreshListView();
 	}
 }

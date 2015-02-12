@@ -1,5 +1,6 @@
 package com.doubibi.superclubmanager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -23,7 +24,9 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 	private EditText etAtyName, etAtyTheme, etAtyContext;
 	private Db db;
 	private SQLiteDatabase dbRead;
-	private static int atyId;
+	private String atyId;
+	public final static int resultCodeDoneAtyEdit = 0;
+	private ArrayList<String> checkedPeopleNum;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +47,30 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 		etAtyTheme = (EditText) findViewById(R.id.etAtyTheme);
 		tvAtyTime = (TextView) findViewById(R.id.tvAtyDate);
 		etAtyContext = (EditText) findViewById(R.id.etAtyContext);
-		atyId = -1;
+		
+		checkedPeopleNum = new ArrayList<String>();
 		
 		db =  new Db(this);
 		dbRead = db.getReadableDatabase();
-		if((this.getIntent().getIntExtra("atyId", -1))!=-1){
-			atyId = this.getIntent().getIntExtra("atyId", -1);
+		atyId = this.getIntent().getStringExtra("atyId");
+		if(atyId!=null){
 			System.out.println("能得到数据"+atyId);
-			Cursor c = dbRead.query("activities", null, "_id=?", new String[]{atyId+""}, null, null, null);
+			Cursor c = dbRead.query("activities", null, "atyId=?", new String[]{atyId}, null, null, null);
 			c.moveToNext();
 			etAtyName.setText(c.getString(c.getColumnIndex("atyName")));
 			etAtyTheme.setText(c.getString(c.getColumnIndex("atyTheme")));
 			tvAtyTime.setText(c.getString(c.getColumnIndex("atyTime")));
 			etAtyContext.setText(c.getString(c.getColumnIndex("atyContext")));
+			Cursor cCheckedPeopleNum = dbRead.query("peopleArrange", null, "atyId=?", new String[]{atyId}, null, null, null);
+//			Cursor cCheckedPeopleNum = dbRead.rawQuery("SELECT * FROM peopleArrange WHERE atyId=?", new String[]{atyId});
+			while(cCheckedPeopleNum.moveToNext()){
+				checkedPeopleNum.add(cCheckedPeopleNum.getString(cCheckedPeopleNum.getColumnIndex("userNum")));
+			}
+			System.out.println("获得的人员个数："+checkedPeopleNum.size());
+			for(String s: checkedPeopleNum){
+				System.out.println("学号为："+s);
+			}
+			System.out.println("人员安排的数据库有："+cCheckedPeopleNum.getCount());
 		}else{
 			System.out.println("不能得到数据");
 		}
@@ -69,7 +83,7 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 			showDatePicker();
 			break;
 		case R.id.btnBackAtyList:
-			setResult(1);
+			setResult(resultCodeDoneAtyEdit);
 			finish();
 			break;
 		case R.id.btnSave:
@@ -77,6 +91,12 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 			break;
 		case R.id.btnPeopleArrange:
 			Intent intent = new Intent(this, Aty_PeopleArrange.class);
+			if(atyId!=null){
+				intent.putExtra("checkedPeopleNum", checkedPeopleNum);
+				System.out.println("向人员安排发送已选的人员学号");
+			}else{
+				System.out.println("没有已选的人员学号需要发送");
+			}
 			startActivityForResult(intent, 0);
 			break;
 		case R.id.btnRelease:
@@ -100,15 +120,16 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 			cv.put("atyTime", tvAtyTime.getText().toString());
 			cv.put("atyContext", etAtyContext.getText().toString());
 			cv.put("atyRelease", true);
-			if(atyId == -1){
+			if(atyId == null){
+				cv.put("atyId", System.currentTimeMillis()+"");
 				dbWrite.insert("activities", null, cv);
 				Toast.makeText(this, "发布成功", Toast.LENGTH_SHORT).show();
 			}else{
-				dbWrite.update("activities", cv, "_id=?", new String[]{atyId+""});
+				dbWrite.update("activities", cv, "atyId=?", new String[]{atyId});
 				Toast.makeText(this, "此活动已经再次发布", Toast.LENGTH_SHORT).show();
 			}
 			dbWrite.close();
-			setResult(1);
+			setResult(resultCodeDoneAtyEdit);
 			finish();
 		}
 		
@@ -117,6 +138,17 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		switch (resultCode) {
+		case Aty_PeopleArrange.resultCodeDonePeopleArrage:
+			checkedPeopleNum = data.getStringArrayListExtra("checkedPeopleNum");
+			System.out.println("已经从人员安排获得人员学号：");
+			for(String s:checkedPeopleNum){
+				System.out.println(s);
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void saveAty() {
@@ -131,15 +163,33 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 			cv.put("atyTime", tvAtyTime.getText().toString());
 			cv.put("atyContext", etAtyContext.getText().toString());
 			cv.put("atyRelease", false);
-			if(atyId == -1){
+			ContentValues cvPeopleArrange = new ContentValues();
+			String atyIdTemp;
+			atyIdTemp = atyId;
+			if(atyId==null){
+				atyId = new String(System.currentTimeMillis()+"");
+			}
+			if(atyIdTemp == null){
+				cv.put("atyId", System.currentTimeMillis()+"");
 				dbWrite.insert("activities", null, cv);
+				for(String userNum: checkedPeopleNum){
+					cvPeopleArrange.put("userNum", userNum);
+					cvPeopleArrange.put("atyId", atyId);
+					dbWrite.insert("peopleArrange", null, cvPeopleArrange);
+				}
 				Toast.makeText(this, "本地保存成功", Toast.LENGTH_SHORT).show();
 			}else{
-				dbWrite.update("activities", cv, "_id=?", new String[]{atyId+""});
+				dbWrite.delete("peopleArrange", "atyId=?", new String[]{atyId});
+				for(String userNum: checkedPeopleNum){
+					cvPeopleArrange.put("userNum", userNum);
+					cvPeopleArrange.put("atyId", atyId);
+					dbWrite.insert("peopleArrange", null, cvPeopleArrange);
+				}
+				dbWrite.update("activities", cv, "atyId=?", new String[]{atyId});
 				Toast.makeText(this, "本地数据更新成功", Toast.LENGTH_SHORT).show();
 			}
 			dbWrite.close();
-			setResult(1);
+			setResult(resultCodeDoneAtyEdit);
 			finish();
 		}
 	}
