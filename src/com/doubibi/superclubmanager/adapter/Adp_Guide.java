@@ -1,4 +1,4 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.adapter;
 
 import java.util.List;
 

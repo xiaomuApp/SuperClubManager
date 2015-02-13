@@ -1,6 +1,10 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.adapter;
 
 import java.util.ArrayList;
+
+import com.doubibi.superclubmanager.R;
+import com.doubibi.superclubmanager.db.Db;
+import com.doubibi.superclubmanager.db.DbControl;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -55,10 +59,15 @@ public class Adp_PeopleArrange extends BaseAdapter {
 		}
 		db = new Db(getContext());
 		dbRead = db.getReadableDatabase();
-		Cursor c = dbRead.query("users", null, "userNum=?", new String[]{list.get(position)}, null, null, null);
-		c.moveToNext();
-		TextView tvUserDepartmentName = (TextView) convertView.findViewById(R.id.tvUserDepartmentName);
-		tvUserDepartmentName.setText(c.getString(c.getColumnIndex("userName"))+" - "+c.getString(c.getColumnIndex("userDepartment")));
+		Cursor c = DbControl.findUserByNum(getContext(), list.get(position));
+		if(c!=null){
+			TextView tvUserDepartmentName = (TextView) convertView.findViewById(R.id.tvUserDepartmentName);
+			tvUserDepartmentName.setText(c.getString(c.getColumnIndex("userName"))+" - "+c.getString(c.getColumnIndex("userDepartment")));
+		}else{
+			TextView tvUserDepartmentName = (TextView) convertView.findViewById(R.id.tvUserDepartmentName);
+			tvUserDepartmentName.setText("抱歉，该人员已被你本地删除");
+			/*此处写从服务器获得本地被删除的人员信息*/
+		}
 		return convertView;
 	}
 	

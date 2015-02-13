@@ -1,6 +1,9 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.main;
 
 import java.util.ArrayList;
+
+import com.doubibi.superclubmanager.R;
+import com.doubibi.superclubmanager.adapter.Adp_PeopleArrange;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class Aty_PeopleArrange extends Activity implements OnClickListener {
 
@@ -27,21 +31,17 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 		findViewById(R.id.btnDonePeopleArrage).setOnClickListener(this);
 		findViewById(R.id.btnBackActivityEdit).setOnClickListener(this);
 		findViewById(R.id.btnAddPerson).setOnClickListener(this);
+		((TextView) findViewById(R.id.tvAtyNamePeopleArrange)).setText(getIntent().getStringExtra("atyName"));
 		lvPeopleArrange = (ListView) findViewById(R.id.lvPeopleArrange);
 		checkedPeopleNum = new ArrayList<String>();
 		if(getIntent().getStringArrayListExtra("checkedPeopleNum")!=null){
 			checkedPeopleNum = getIntent().getStringArrayListExtra("checkedPeopleNum");
-			System.out.println("从活动编辑获得checkedPeopleNum的个数："+checkedPeopleNum.size());
-		}else{
-			System.out.println("从活动编辑不能获得数据");
 		}
 		refrefreshListView();
 	}
 
 	private void refrefreshListView() {
 		adapter = new Adp_PeopleArrange(checkedPeopleNum, this);
-		System.out.println("adapter的大小为："+adapter.getCount());
-		System.out.println("checkedPeopleNum的大小为："+checkedPeopleNum.size());
 		lvPeopleArrange.setAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
@@ -66,7 +66,6 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 		default:
 			break;
 		}
-		
 	}
 	
 	@Override
@@ -75,12 +74,9 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 		switch (resultCode) {
 		case Aty_PeopleList.resultCodeDonePeopleList:
 			checkedPeopleNum = data.getExtras().getStringArrayList("donePeopleList");
-			System.out.println("执行人员列表的返回人员选择数据");
 			refrefreshListView();
 			break;
-
 		default:
-			System.out.println("不能执行人员列表的返回数据");
 			break;
 		}
 	}

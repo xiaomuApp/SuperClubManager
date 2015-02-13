@@ -1,4 +1,6 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.main;
+
+import com.doubibi.superclubmanager.R;
 
 import android.app.Activity;
 import android.content.Intent;

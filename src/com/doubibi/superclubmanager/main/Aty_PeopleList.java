@@ -1,12 +1,10 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.main;
 
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +14,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.doubibi.superclubmanager.R;
+import com.doubibi.superclubmanager.adapter.Adp_PeopleList;
+import com.doubibi.superclubmanager.db.DbControl;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -24,8 +25,6 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 
 	private ImageView ivCheckBox;
 	private PullToRefreshListView lvPeopleList;
-	private Db db;
-	private SQLiteDatabase dbRead, dbWrite;
 	private Adp_PeopleList adapter;
 	private ArrayList<String> checkedPeopleNum;
 	public final static int resultCodeDonePeopleList = 1;
@@ -34,20 +33,16 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_people_list);
-		
 		init();
-		
 	}
 
+	/*界面初始化，如果上个界面是已经存在勾选名单的则初始为勾选状态*/
 	private void init() {
 		findViewById(R.id.btnDonePeopleList).setOnClickListener(this);
 		findViewById(R.id.btnBackPeopleArrange).setOnClickListener(this);
 		lvPeopleList = (PullToRefreshListView) findViewById(R.id.lvPeopleList);
 		lvPeopleList.setOnRefreshListener(this);
 		lvPeopleList.setOnItemClickListener(this);
-		db = new Db(this);
-		dbRead = db.getReadableDatabase();
-		dbWrite = db.getWritableDatabase();
 		
 		adapter = new Adp_PeopleList(this, R.layout.list_cell_people_list, null, new String[]{}, new int[]{});
 		lvPeopleList.setAdapter(adapter);
@@ -56,16 +51,17 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 		checkedPeopleNum = getIntent().getStringArrayListExtra("checkedPeopleNum");
 		if(checkedPeopleNum == null){
 			checkedPeopleNum = new ArrayList<String>();
-			System.out.println("没有获得数据");
 		}else{
 				adapter.initView(checkedPeopleNum);
 		}
 	}
-
+	
+	/*刷新*/
 	private void refreshListView() {
-		Cursor c = dbRead.query("users", null, null, null, null, null, "userName");
+		Cursor c = DbControl.findUsersAll(this);
 		adapter.changeCursor(c);
 		adapter.notifyDataSetChanged();
+		lvPeopleList.setAdapter(adapter);
 	}
 
 	@Override
@@ -75,13 +71,11 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 			Intent intent = new Intent();
 			intent.putExtra("donePeopleList", checkedPeopleNum);
 			setResult(resultCodeDonePeopleList, intent);
-			dbWrite.close();
-			dbRead.close();
+			DbControl.colseDbControl();
 			finish();
 			break;
 		case R.id.btnBackPeopleArrange:
-			dbWrite.close();
-			dbRead.close();
+			DbControl.colseDbControl();
 			finish();
 			break;
 		default:
@@ -89,6 +83,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 		}
 	}
 
+	/*下拉刷新*/
 	@Override
 	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 		new AsyncTask<Void, Void, Void>() {
@@ -103,9 +98,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 				refreshListView();
 				lvPeopleList.onRefreshComplete();
 			}
-			
 		}.execute();
-		
 	}
 
 	@Override
@@ -123,34 +116,21 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 			checkedPeopleNum.remove(c.getString(c.getColumnIndex("userNum")));
 			ivCheckBox.setImageResource(R.drawable.ic_cb_normal);
 		}
-//	int itemId = c.getInt(c.getColumnIndex("_id"));
-//	dbWrite.delete("users", "_id=?", new String[]{itemId+""});
-//	refreshListView();
-		
 	}
 	
+	/*该功能仅为测试才有*/
 	static int i = 0;
 	public void testAddPeople(View view){
-		
-		ContentValues cv = new ContentValues();
-		cv.put("userName", "同学"+i);
-		cv.put("userNum", i+"");
-		if(i%4!=0)
-			cv.put("userPosition", "干事");
-		else
-			cv.put("userPosition", "部长");
-		cv.put("userDepartment", "神秘部门");
-		cv.put("userClub", "神奇俱乐部");
 		i++;
-		
-		dbWrite.insert("users", null, cv);
-		
+		boolean b = DbControl.insertUser(this, "同学"+i, "20132100"+i, "干事", "逗比比", "小木社团");
+		if(b)System.out.println("添加人员");
+		else System.out.println("*******");
 		refreshListView();
 	}
 
+	/*该功能仅为测试才有*/
 	public void testDeletePeople(View view){
-//		Cursor c = adapter.getCursor();
-		dbWrite.delete("users", null, null);
+		DbControl.deleteUsersAll(this);
 		refreshListView();
 	}
 

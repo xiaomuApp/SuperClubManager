@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name=".Aty_Welcome" >
+        <activity android:name=".main.Aty_Welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,15 +21,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Aty_Main"
+            android:name=".main.Aty_Main"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".Aty_Guide" ></activity>
-        <activity android:name=".Aty_ActivityList"
-            android:parentActivityName=".Aty_Main"></activity>
-        <activity android:name="Aty_ActivityEdit"></activity>
-        <activity android:name=".Aty_PeopleArrange"></activity>
-        <activity android:name=".Aty_PeopleList"></activity>
+        <activity android:name=".main.Aty_Guide" ></activity>
+        <activity android:name=".main.Aty_ActivityList"></activity>
+        <activity android:name=".main.Aty_ActivityEdit"></activity>
+        <activity android:name=".main.Aty_PeopleArrange"></activity>
+        <activity android:name=".main.Aty_PeopleList"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,7 +24,6 @@ public class Db extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE activities("+
 				"_id INTEGER PRIMARY KEY AUTOINCREMENT,"+
 				"atyId TEXT DEFAULT NONE,"+
-				"club TEXT DEFAULT NONE,"+
 				"atyName TEXT DEFAULT NONE,"+
 				"atyTime TEXT DEFAULT NONE,"+
 				"atyTheme TEXT DEFAULT NONE,"+

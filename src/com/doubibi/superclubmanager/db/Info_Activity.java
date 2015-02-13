@@ -1,4 +1,4 @@
-package com.doubibi.superclubmanager;
+package com.doubibi.superclubmanager.db;
 
 public class Info_Activity {
 
