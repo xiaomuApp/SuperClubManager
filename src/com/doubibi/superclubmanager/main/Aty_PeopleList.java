@@ -28,6 +28,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 	private Adp_PeopleList adapter;
 	private ArrayList<String> checkedPeopleNum;
 	public final static int resultCodeDonePeopleList = 1;
+	public final static String EM_DONE = "donePeopleList";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 		lvPeopleList.setAdapter(adapter);
 		
 		refreshListView();
-		checkedPeopleNum = getIntent().getStringArrayListExtra("checkedPeopleNum");
+		checkedPeopleNum = getIntent().getStringArrayListExtra(Aty_PeopleArrange.EM_PEOPLE_NUM);
 		if(checkedPeopleNum == null){
 			checkedPeopleNum = new ArrayList<String>();
 		}else{
@@ -69,7 +70,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 		switch (v.getId()) {
 		case R.id.btnDonePeopleList:
 			Intent intent = new Intent();
-			intent.putExtra("donePeopleList", checkedPeopleNum);
+			intent.putExtra(EM_DONE, checkedPeopleNum);
 			setResult(resultCodeDonePeopleList, intent);
 			DbControl.colseDbControl();
 			finish();

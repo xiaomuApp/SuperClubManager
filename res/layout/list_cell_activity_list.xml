@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_margin"
     android:paddingLeft="@dimen/list_base_margin"
     android:paddingRight="@dimen/list_base_margin"
-    android:paddingTop="@dimen/activity_margin"
-    android:paddingBottom="@dimen/activity_margin" >
+    android:paddingTop="@dimen/activity_margin" >
 
     <TextView
         android:id="@+id/tvAtyName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lines="1"
         android:text="活动名称"
         android:textColor="@color/listgrey"
         android:textSize="@dimen/front_2" />
@@ -20,6 +21,7 @@
         android:id="@+id/tvAtyTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lines="1"
         android:text="活动主题"
         android:textColor="@color/listgrey"
         android:textSize="@dimen/front_1_5" />
@@ -45,7 +47,6 @@
             android:text="未发布"
             android:textColor="@color/listgrey"
             android:textSize="@dimen/front_1_5" />
-
     </RelativeLayout>
 
 </LinearLayout>

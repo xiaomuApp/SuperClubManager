@@ -25,6 +25,8 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 	private EditText etAtyName, etAtyTheme, etAtyContext;
 	private String atyId;
 	public final static int resultCodeDoneAtyEdit = 0;
+	public final static String EM_PEOPLE_NUM = "checkedPeopleNum";
+	public final static String EM_ATY_NAME = "atyName";
 	private ArrayList<String> checkedPeopleNum;
 
 	@Override
@@ -50,7 +52,7 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 
 		checkedPeopleNum = new ArrayList<String>();
 
-		atyId = this.getIntent().getStringExtra("atyId");
+		atyId = this.getIntent().getStringExtra(Aty_ActivityList.EM_ATY_ID);
 		if(atyId!=null){
 			Cursor c = DbControl.findActivityById(this, atyId);
 			if(c!=null){
@@ -83,8 +85,8 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 			break;
 		case R.id.btnPeopleArrange:
 			Intent intent = new Intent(this, Aty_PeopleArrange.class);
-			intent.putExtra("atyName", etAtyName.getText().toString());
-			intent.putExtra("checkedPeopleNum", checkedPeopleNum);
+			intent.putExtra(EM_ATY_NAME, etAtyName.getText().toString());
+			intent.putExtra(EM_PEOPLE_NUM, checkedPeopleNum);
 			startActivityForResult(intent, 0);
 			break;
 		case R.id.btnRelease:
@@ -100,7 +102,7 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode) {
 		case Aty_PeopleArrange.resultCodeDonePeopleArrage:
-			checkedPeopleNum = data.getStringArrayListExtra("checkedPeopleNum");
+			checkedPeopleNum = data.getStringArrayListExtra(Aty_PeopleArrange.EM_DONE);
 			break;
 		default:
 			break;
@@ -136,7 +138,7 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 	private boolean saveData(boolean release){
 		boolean success = false;
 		if(etAtyName.getText().toString().trim().length()<=1){
-			Toast.makeText(this, "未填写活动主题", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "未填写活动名称", Toast.LENGTH_SHORT).show();
 		}else{
 			String atyName = etAtyName.getText().toString();
 			String atyTheme = etAtyTheme.getText().toString();

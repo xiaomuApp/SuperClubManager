@@ -22,6 +22,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 	
 	private PullToRefreshListView lvAtyList;
 	private Adp_ActivityList adapter;
+	public final static String EM_ATY_ID = "atyId";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 		Cursor c = adapter.getCursor();
 		c.moveToPosition(position-1);
 		Intent i = new Intent(this, Aty_ActivityEdit.class);
-		i.putExtra("atyId", c.getString(c.getColumnIndex("atyId")));
+		i.putExtra(EM_ATY_ID, c.getString(c.getColumnIndex("atyId")));
 		startActivity(i);
 	}
 	/*清空所有的本地活动和人员安排信息*/

@@ -19,6 +19,8 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 	Adp_PeopleArrange adapter;
 	private ArrayList<String> checkedPeopleNum;
 	public final static int resultCodeDonePeopleArrage = 1;
+	public final static String EM_PEOPLE_NUM = "checkedPeopleNum";
+	public final static String EM_DONE = "checkedPeopleNum";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +33,11 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 		findViewById(R.id.btnDonePeopleArrage).setOnClickListener(this);
 		findViewById(R.id.btnBackActivityEdit).setOnClickListener(this);
 		findViewById(R.id.btnAddPerson).setOnClickListener(this);
-		((TextView) findViewById(R.id.tvAtyNamePeopleArrange)).setText(getIntent().getStringExtra("atyName"));
+		((TextView) findViewById(R.id.tvAtyNamePeopleArrange)).setText(getIntent().getStringExtra(Aty_ActivityEdit.EM_ATY_NAME));
 		lvPeopleArrange = (ListView) findViewById(R.id.lvPeopleArrange);
 		checkedPeopleNum = new ArrayList<String>();
-		if(getIntent().getStringArrayListExtra("checkedPeopleNum")!=null){
-			checkedPeopleNum = getIntent().getStringArrayListExtra("checkedPeopleNum");
+		if(getIntent().getStringArrayListExtra(Aty_ActivityEdit.EM_PEOPLE_NUM)!=null){
+			checkedPeopleNum = getIntent().getStringArrayListExtra(Aty_ActivityEdit.EM_PEOPLE_NUM);
 		}
 		refrefreshListView();
 	}
@@ -51,7 +53,7 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.btnAddPerson:
 			Intent intent = new Intent(this, Aty_PeopleList.class);
-			intent.putExtra("checkedPeopleNum", checkedPeopleNum);
+			intent.putExtra(EM_PEOPLE_NUM, checkedPeopleNum);
 			startActivityForResult(intent, 0);
 			break;
 		case R.id.btnBackActivityEdit:
@@ -59,7 +61,7 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 			break;
 		case R.id.btnDonePeopleArrage:
 			Intent iCheckedPeopleList = new Intent();
-			iCheckedPeopleList.putExtra("checkedPeopleNum", checkedPeopleNum);
+			iCheckedPeopleList.putExtra(EM_DONE, checkedPeopleNum);
 			setResult(resultCodeDonePeopleArrage, iCheckedPeopleList);
 			finish();
 			break;
@@ -73,7 +75,7 @@ public class Aty_PeopleArrange extends Activity implements OnClickListener {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (resultCode) {
 		case Aty_PeopleList.resultCodeDonePeopleList:
-			checkedPeopleNum = data.getExtras().getStringArrayList("donePeopleList");
+			checkedPeopleNum = data.getExtras().getStringArrayList(Aty_PeopleList.EM_DONE);
 			refrefreshListView();
 			break;
 		default:
