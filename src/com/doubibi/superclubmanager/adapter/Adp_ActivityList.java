@@ -27,25 +27,34 @@ public class Adp_ActivityList extends SimpleCursorAdapter {
 		if(convertView==null){
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_cell_activity_list, null);
 		}
-		TextView tvAtyName = (TextView) convertView.findViewById(R.id.tvAtyName);
-		TextView tvAtyTheme = (TextView) convertView.findViewById(R.id.tvAtyTheme);
-		TextView tvAtyTime = (TextView) convertView.findViewById(R.id.tvAtyTime);
-		TextView tvAtyRelease = (TextView) convertView.findViewById(R.id.tvAtyRelease);
+		ViewHolder holder =  new ViewHolder();
+		holder.tvAtyName = (TextView) convertView.findViewById(R.id.tvAtyName);
+		holder.tvAtyTheme = (TextView) convertView.findViewById(R.id.tvAtyTheme);
+		holder.tvAtyTime = (TextView) convertView.findViewById(R.id.tvAtyTime);
+		holder.tvAtyRelease = (TextView) convertView.findViewById(R.id.tvAtyRelease);
+		convertView.setTag(holder);
 		
-		tvAtyName.setText(cursor.getString(cursor.getColumnIndex("atyName")));
-		tvAtyTheme.setText(cursor.getString(cursor.getColumnIndex("atyTheme")));
-		tvAtyTime.setText(cursor.getString(cursor.getColumnIndex("atyTime")));
+		holder.tvAtyName.setText(cursor.getString(cursor.getColumnIndex("atyName")));
+		holder.tvAtyTheme.setText(cursor.getString(cursor.getColumnIndex("atyTheme")));
+		holder.tvAtyTime.setText(cursor.getString(cursor.getColumnIndex("atyTime")));
 		if(cursor.getString(cursor.getColumnIndex("atyRelease")).equals("1")){
-			tvAtyRelease.setTextColor(context.getResources().getColor(R.color.releasegreen));
-			tvAtyRelease.setText("已发布");
+			holder.tvAtyRelease.setTextColor(context.getResources().getColor(R.color.releasegreen));
+			holder.tvAtyRelease.setText("已发布");
 		}else{
-			tvAtyRelease.setTextColor(context.getResources().getColor(R.color.listgrey));
-			tvAtyRelease.setText("未发布");
+			holder.tvAtyRelease.setTextColor(context.getResources().getColor(R.color.listgrey));
+			holder.tvAtyRelease.setText("未发布");
 		}
 		
 	}
 
 	public Context getContext() {
 		return context;
+	}
+	
+	static class ViewHolder{
+		TextView tvAtyName;
+		TextView tvAtyTheme;
+		TextView tvAtyTime;
+		TextView tvAtyRelease;
 	}
 }

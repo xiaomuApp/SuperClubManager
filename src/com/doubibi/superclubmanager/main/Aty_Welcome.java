@@ -1,7 +1,6 @@
 package com.doubibi.superclubmanager.main;
 
-import com.doubibi.superclubmanager.R;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,13 +8,16 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.doubibi.superclubmanager.R;
+
 public class Aty_Welcome extends Activity {
 
 	private boolean isFirstIn = false;
-	private static final int TIME = 1500;
+	private static final int TIME = 1000;
 	private static final int GO_HOME = 1000;
 	private static final int GO_GUIDE =1001;
 	
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg){
 			switch (msg.what) {

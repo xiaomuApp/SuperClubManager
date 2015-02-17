@@ -34,6 +34,7 @@ public class Aty_PeopleList extends Activity implements OnClickListener, OnRefre
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_people_list);
+		
 		init();
 	}
 

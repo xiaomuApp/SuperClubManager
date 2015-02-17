@@ -21,8 +21,8 @@ public class Aty_Main extends Activity implements OnClickListener{
         setContentView(R.layout.activity_main);
         
         findViewById(R.id.btnOrganizer).setOnClickListener(this);
-        findViewById(R.id.btnOrganizer);
-        findViewById(R.id.btnOrganizer);
+        findViewById(R.id.btnPerformer);
+        findViewById(R.id.btnAdressList);
         
     }
 

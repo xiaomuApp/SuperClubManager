@@ -117,6 +117,7 @@ public class Aty_ActivityEdit extends Activity implements OnClickListener {
 		else
 			Toast.makeText(this, "发布失败", Toast.LENGTH_SHORT).show();
 		setResult(resultCodeDoneAtyEdit);
+		
 		finish();
 	}
 
