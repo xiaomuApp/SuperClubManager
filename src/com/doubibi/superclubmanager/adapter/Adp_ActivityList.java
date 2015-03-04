@@ -1,5 +1,6 @@
 package com.doubibi.superclubmanager.adapter;
 
+
 import com.doubibi.superclubmanager.R;
 
 import android.annotation.SuppressLint;

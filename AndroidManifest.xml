@@ -29,6 +29,8 @@
         <activity android:name=".main.Aty_ActivityEdit"></activity>
         <activity android:name=".main.Aty_PeopleArrange"></activity>
         <activity android:name=".main.Aty_PeopleList"></activity>
+        <activity android:name=".main.Aty_PerformerTaskList"></activity>
+        <activity android:name=".main.Aty_PerformerMyTask"></activity>
     </application>
 
 </manifest>

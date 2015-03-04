@@ -19,30 +19,28 @@ import com.doubibi.superclubmanager.R;
 import com.doubibi.superclubmanager.adapter.Adp_ActivityList;
 import com.doubibi.superclubmanager.db.DbControl;
 
-public class Aty_ActivityList extends Activity implements OnClickListener, OnRefreshListener<ListView>, OnItemClickListener {
-	
+public class Aty_PerformerTaskList extends Activity implements OnClickListener, OnRefreshListener<ListView>, OnItemClickListener {
+
 	private PullToRefreshListView lvAtyList;
 	private Adp_ActivityList adapter;
 	public final static String EM_ATY_ID = "atyId";
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_activity_list);
+		setContentView(R.layout.activity_performer_activity_list);
 		init();
 	}
 	/*界面初始化，从本地数据库获得活动信息*/
 	private void init() {
-		findViewById(R.id.btnBackMain).setOnClickListener(this);
-		findViewById(R.id.btnNewEvent).setOnClickListener(this);
 		lvAtyList = (PullToRefreshListView) findViewById(R.id.lvAtyList);
 		lvAtyList.setOnRefreshListener(this);
-		
+
 		adapter = new Adp_ActivityList(this, R.layout.list_cell_activity_list, null, new String[]{}, new int[]{});
-		
+
 		lvAtyList.setAdapter(adapter);
 		lvAtyList.setOnItemClickListener(this);
-		
+
 		refreshListView();
 	}
 
@@ -65,7 +63,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (resultCode) {
-		case Aty_ActivityEdit.resultCodeDoneAtyEdit:
+		case Aty_PerformerMyTask.resultCodeDoneAtyEdit:
 			refreshListView();
 			break;
 		default:
@@ -85,7 +83,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 				}
 				return null;
 			}
-			
+
 			@Override
 			protected void onPostExecute(Void result) {
 
@@ -106,7 +104,7 @@ public class Aty_ActivityList extends Activity implements OnClickListener, OnRef
 			long id) {
 		Cursor c = adapter.getCursor();
 		c.moveToPosition(position-1);
-		Intent i = new Intent(this, Aty_ActivityEdit.class);
+		Intent i = new Intent(this, Aty_PerformerMyTask.class);
 		i.putExtra(EM_ATY_ID, c.getString(c.getColumnIndex("atyId")));
 		startActivity(i);
 	}

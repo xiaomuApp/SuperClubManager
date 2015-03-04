@@ -21,6 +21,7 @@ public class Aty_Main extends Activity implements OnClickListener{
         setContentView(R.layout.activity_main);
         
         findViewById(R.id.btnOrganizer).setOnClickListener(this);
+        findViewById(R.id.btnPerformer).setOnClickListener(this);
         findViewById(R.id.btnOrganizer);
         findViewById(R.id.btnOrganizer);
         
@@ -55,6 +56,9 @@ public class Aty_Main extends Activity implements OnClickListener{
 			startActivity(intent);
 			
 			break;
+		case R.id.btnPerformer:
+			intent.setClass(this, Aty_PerformerTaskList.class);
+			startActivity(intent);
 
 		default:
 			break;

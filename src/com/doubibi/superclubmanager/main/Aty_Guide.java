@@ -39,10 +39,15 @@ public class Aty_Guide extends Activity {
 		views.add(inflater.inflate(R.layout.item_guide_two, null));
 		views.add(inflater.inflate(R.layout.item_guide_tree, null));
 
+		System.out.println(1);
 		vpAdapter = new Adp_Guide(views, this);
+		System.out.println(1);
 		vp = (ViewPager) findViewById(R.id.viewpager);
+		System.out.println(1);
 		vp.setAdapter(vpAdapter);
+		System.out.println(1);
 		btnStart = (Button) views.get(2).findViewById(R.id.btnStart);
+		System.out.println(1);
 		btnStart.setOnClickListener(new OnClickListener() {
 
 			@Override
